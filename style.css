@@ -30,3 +30,123 @@ body {
     max-width: 800px;
 }
 
+.pixel-border {
+    border: 4px solid var(--light);
+    position: relative;
+    padding: 15px;
+    background-color: var(--dark);
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.3);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: var(--primary);
+    color: var(--dark);
+}
+
+.power-light {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #4caf50;
+    box-shadow: 0 0 10px #4caf50;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.chat-container {
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    background-color: rgba(41, 47, 54, 0.8);
+}
+
+.chat-log {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 2px solid var(--light);
+    background-color: var(--dark);
+}
+
+.message {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 0;
+    border: 2px solid;
+    position: relative;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.user-message {
+    background-color: var(--secondary);
+    border-color: var(--secondary);
+    color: var(--dark);
+    margin-left: auto;
+    text-align: right;
+}
+
+.bot-message {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--dark);
+    margin-right: auto;
+}
+
+.input-area {
+    display: flex;
+    gap: 10px;
+}
+
+.pixel-input {
+    flex-grow: 1;
+    padding: 10px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+    border: 3px solid var(--light);
+    background-color: var(--dark);
+    color: var(--light);
+}
+
+.pixel-input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.pixel-button {
+    padding: 10px 20px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+    background-color: var(--accent);
+    color: var(--dark);
+    border: 3px solid var(--light);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pixel-button:hover {
+    background-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.pixel-button:active {
+    transform: translateY(0);
+}
+
+footer {
+    text-align: center;
+    font-size: 10px;
+    padding: 10px;
+    background-color: var(--dark);
+}
