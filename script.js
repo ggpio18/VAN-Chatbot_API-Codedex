@@ -1,21 +1,42 @@
-// Replace with your Hugging Face API token
-const HF_API_TOKEN = 'YOUR_HUGGING_FACE_TOKEN_HERE';
+// Theme Toggle Functionality
+const themeCheckbox = document.getElementById('theme-checkbox');
+const body = document.body;
 
-// Model ID from Hugging Face (we'll use Zephyr 7B as example)
-const MODEL_ID = 'HuggingFaceH4/zephyr-7b-beta';
+// Check for saved theme preference or use preferred color scheme
+const savedTheme = localStorage.getItem('theme') || 
+                  (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 
+if (savedTheme === 'dark') {
+    body.classList.add('dark-mode');
+    themeCheckbox.checked = true;
+}
+
+themeCheckbox.addEventListener('change', function() {
+    if (this.checked) {
+        body.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        body.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+    }
+});
+
+// Chat Functionality
 const chatLog = document.getElementById('chat-log');
 const userInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-btn');
+const typingIndicator = document.getElementById('typing-indicator');
 
 // Initial bot message
-addBotMessage("Greetings! I'm your 8-bit AI assistant powered by Hugging Face. How can I help?");
+setTimeout(() => {
+    addBotMessage("SYSTEM INITIALIZED... READY TO CHAT!");
+}, 500);
 
-// Event listeners
+// Send message when button is clicked or Enter is pressed
 sendBtn.addEventListener('click', sendMessage);
 userInput.addEventListener('keypress', (e) => e.key === 'Enter' && sendMessage());
 
-async function sendMessage() {
+function sendMessage() {
     const message = userInput.value.trim();
     if (!message) return;
     
@@ -23,53 +44,21 @@ async function sendMessage() {
     userInput.value = '';
     showTypingIndicator();
     
-    try {
-        const response = await queryHuggingFace(message);
+    // Simulate API response (replace with actual API call)
+    setTimeout(() => {
         removeTypingIndicator();
-        addBotMessage(response);
-    } catch (error) {
-        console.error('Error:', error);
-        removeTypingIndicator();
-        addBotMessage("Oops! Something went wrong. Try again later!");
-    }
+        const responses = [
+            "AFFIRMATIVE. I PROCESSED YOUR REQUEST.",
+            "ERROR 404: WITTY RESPONSE NOT FOUND.",
+            "COMMAND RECEIVED. PROCESSING...",
+            "I'M JUST A SIMPLE 8-BIT AI. PLEASE BE GENTLE!",
+            "01001000 01001001 00100001 (THAT'S 'HI!' IN BINARY)"
+        ];
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        addBotMessage(randomResponse);
+    }, 1500 + Math.random() * 2000);
 }
 
-async function queryHuggingFace(message) {
-    const response = await fetch(
-        `https://api-inference.huggingface.co/models/${MODEL_ID}`,
-        {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${HF_API_TOKEN}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                inputs: `<|system|>
-You are a helpful, 8-bit style AI assistant. Keep responses short, fun and retro-themed.
-</s>
-<|user|>
-${message}
-</s>
-<|assistant|>`,
-                parameters: {
-                    max_new_tokens: 200,
-                    temperature: 0.7,
-                    repetition_penalty: 1.2
-                }
-            })
-        }
-    );
-
-    if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
-    }
-
-    const result = await response.json();
-    return result[0]?.generated_text.split('<|assistant|>')[1]?.trim() || 
-           "I didn't get a proper response. Try asking differently!";
-}
-
-// Helper functions (same as before)
 function addUserMessage(message) {
     const messageElement = document.createElement('div');
     messageElement.classList.add('message', 'user-message');
@@ -81,25 +70,55 @@ function addUserMessage(message) {
 function addBotMessage(message) {
     const messageElement = document.createElement('div');
     messageElement.classList.add('message', 'bot-message');
-    messageElement.textContent = message;
+    
+    // Add typewriter effect
+    let i = 0;
+    messageElement.textContent = '';
+    const typing = setInterval(() => {
+        if (i < message.length) {
+            messageElement.textContent += message.charAt(i);
+            scrollToBottom();
+            i++;
+        } else {
+            clearInterval(typing);
+        }
+    }, 30);
+    
     chatLog.appendChild(messageElement);
     scrollToBottom();
 }
 
 function showTypingIndicator() {
-    const typingElement = document.createElement('div');
-    typingElement.classList.add('message', 'bot-message');
-    typingElement.id = 'typing-indicator';
-    typingElement.innerHTML = '<div class="typing"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
-    chatLog.appendChild(typingElement);
+    typingIndicator.style.display = 'flex';
     scrollToBottom();
 }
 
 function removeTypingIndicator() {
-    const typingElement = document.getElementById('typing-indicator');
-    typingElement?.remove();
+    typingIndicator.style.display = 'none';
 }
 
 function scrollToBottom() {
     chatLog.scrollTop = chatLog.scrollHeight;
 }
+
+// Easter egg - change colors when clicking header
+document.querySelector('header').addEventListener('click', function() {
+    const root = document.documentElement;
+    const colors = [
+        { primary: '#ff2d75', secondary: '#00f0ff', accent: '#ff9e3d' },
+        { primary: '#9c27b0', secondary: '#00bcd4', accent: '#ffeb3b' },
+        { primary: '#e91e63', secondary: '#00e676', accent: '#ff9800' },
+        { primary: '#673ab7', secondary: '#ff5722', accent: '#8bc34a' }
+    ];
+    
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    root.style.setProperty('--light-primary', randomColor.primary);
+    root.style.setProperty('--light-secondary', randomColor.secondary);
+    root.style.setProperty('--light-accent', randomColor.accent);
+    
+    if (body.classList.contains('dark-mode')) {
+        root.style.setProperty('--dark-primary', randomColor.primary);
+        root.style.setProperty('--dark-secondary', randomColor.secondary);
+        root.style.setProperty('--dark-accent', randomColor.accent);
+    }
+});
