@@ -93,12 +93,12 @@ async function queryChatAI(message) {
                 },
                 body: JSON.stringify({
                     inputs: `<|system|>
-You are a helpful 8-bit AI assistant. Respond in short, fun messages with occasional retro gaming references.
-</s>
-<|user|>
-${message}
-</s>
-<|assistant|>`,
+                    You are a helpful 8-bit AI assistant. Respond in short, fun messages with occasional retro gaming references.
+                    </s>
+                    <|user|>
+                    ${message}
+                    </s>
+                    <|assistant|>`,
                     parameters: {
                         max_new_tokens: 150,
                         temperature: 0.7,
