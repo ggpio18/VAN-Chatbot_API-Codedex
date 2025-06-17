@@ -84,3 +84,29 @@ function addBotMessage(message) {
     scrollToBottom();
 }
 
+function showTypingIndicator() {
+    const typingElement = document.createElement('div');
+    typingElement.classList.add('message', 'bot-message');
+    typingElement.id = 'typing-indicator';
+    
+    const typingText = document.createElement('div');
+    typingText.classList.add('typing');
+    
+    for (let i = 0; i < 3; i++) {
+        const dot = document.createElement('span');
+        dot.classList.add('typing-dot');
+        typingText.appendChild(dot);
+    }
+    
+    typingElement.appendChild(typingText);
+    chatLog.appendChild(typingElement);
+    scrollToBottom();
+}
+
+function removeTypingIndicator() {
+    const typingElement = document.getElementById('typing-indicator');
+    if (typingElement) {
+        typingElement.remove();
+    }
+}
+
