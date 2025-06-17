@@ -183,3 +183,43 @@ footer {
     0%, 60%, 100% { transform: translateY(0); }
     30% { transform: translateY(-5px); }
 }
+
+/* Responsive design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .chat-container {
+        height: 400px;
+    }
+    
+    header h1 {
+        font-size: 18px;
+    }
+    
+    .message {
+        max-width: 90%;
+        font-size: 12px;
+    }
+    
+    .pixel-input, .pixel-button {
+        padding: 8px;
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 16px;
+    }
+    
+    .power-light {
+        width: 15px;
+        height: 15px;
+    }
+    
+    .chat-container {
+        height: 350px;
+    }
+}
