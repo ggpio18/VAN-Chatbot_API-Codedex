@@ -9,14 +9,14 @@
     --light-text: #081820;
     --light-shadow: rgba(0, 0, 0, 0.3);
     
-    /* Dark Mode - Vaporwave Inspired */
-    --dark-bg: #0f0f1b;
-    --dark-panel: #1a1a2e;
-    --dark-primary: #4e4e8d;
-    --dark-secondary: #e94584;
-    --dark-accent: #00c1b3;
-    --dark-text: #f1f1f1;
-    --dark-shadow: rgba(0, 0, 0, 0.6);
+    /* Dark Mode - Vaporwave Inspired (Updated for better visibility) */
+    --dark-bg: #121212;
+    --dark-panel: #1e1e1e;
+    --dark-primary: #6a4c93;
+    --dark-secondary: #00c1b3;
+    --dark-accent: #ff7aa2;
+    --dark-text: #f8f8f8;  /* Brighter text color */
+    --dark-shadow: rgba(0, 0, 0, 0.7);
     
     /* Shared */
     --border-width: 4px;
@@ -45,7 +45,7 @@ body {
 
 body.dark-mode {
     background-color: var(--dark-bg);
-    color: var(--dark-text);
+    color: var(--dark-text);  /* Updated for better visibility */
 }
 
 /* Container */
@@ -207,7 +207,7 @@ h1 {
 }
 
 .dark-mode h1 {
-    color: var(--dark-text);
+    color: var(--dark-text);  /* Updated for better visibility */
     text-shadow: 3px 3px 0 var(--dark-shadow);
 }
 
@@ -293,14 +293,13 @@ h1 {
     background-color: var(--light-primary);
     position: relative;
     margin-bottom: 20px;
-    /* Simple pixel robot design */
 }
 
 .dark-mode .pixel-robot {
     background-color: var(--dark-accent);
 }
 
-/* Messages */
+/* Messages - Updated for better dark mode visibility */
 .message {
     margin-bottom: 15px;
     padding: 10px;
@@ -332,7 +331,7 @@ h1 {
 .dark-mode .user-message {
     background-color: var(--dark-accent);
     border-color: var(--dark-secondary);
-    color: var(--dark-text);
+    color: #000000;  /* Keep black text on colored bubbles */
 }
 
 .bot-message {
@@ -343,11 +342,12 @@ h1 {
 }
 
 .dark-mode .bot-message {
-    background-color: var(--dark-bg);
-    border-color: var(--dark-secondary);
+    background-color: var(--dark-panel);  /* Darker background */
+    border-color: var(--dark-accent);
+    color: #ffffff;  /* Pure white for best readability */
 }
 
-/* Input Area */
+/* Input Area - Updated for dark mode */
 .input-container {
     display: flex;
     gap: 10px;
@@ -366,7 +366,7 @@ h1 {
 
 .dark-mode .pixel-input {
     background-color: var(--dark-bg);
-    color: var(--dark-text);
+    color: #ffffff;  /* Brighter text */
     border-color: var(--dark-secondary);
 }
 
@@ -385,7 +385,7 @@ h1 {
 
 .dark-mode .pixel-button {
     background-color: var(--dark-secondary);
-    color: var(--dark-text);
+    color: #000000;  /* Dark text for contrast */
     border-color: var(--dark-secondary);
     box-shadow: 0 5px 0 var(--dark-shadow);
 }
@@ -415,12 +415,17 @@ h1 {
     box-shadow: none;
 }
 
-/* Status Bar */
+/* Status Bar - Updated for visibility */
 .status-bar {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
     font-size: 12px;
+    color: var(--light-text);
+}
+
+.dark-mode .status-bar {
+    color: var(--dark-accent);  /* Brighter accent color */
 }
 
 .connection-status {
