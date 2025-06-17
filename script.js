@@ -110,3 +110,23 @@ function removeTypingIndicator() {
     }
 }
 
+function scrollToBottom() {
+    chatLog.scrollTop = chatLog.scrollHeight;
+}
+
+// Easter egg - change color scheme on header click
+document.querySelector('header').addEventListener('click', function() {
+    const root = document.documentElement;
+    const colors = [
+        { primary: '#ff6b6b', secondary: '#4ecdc4', accent: '#ffe66d' },
+        { primary: '#ff9ff3', secondary: '#feca57', accent: '#1dd1a1' },
+        { primary: '#48dbfb', secondary: '#5f27cd', accent: '#ff9ff3' },
+        { primary: '#00d2d3', secondary: '#ff9ff3', accent: '#f368e0' }
+    ];
+    
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    root.style.setProperty('--primary', randomColor.primary);
+    root.style.setProperty('--secondary', randomColor.secondary);
+    root.style.setProperty('--accent', randomColor.accent);
+});
+
