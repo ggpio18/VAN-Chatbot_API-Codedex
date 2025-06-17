@@ -1,82 +1,60 @@
-// Theme Toggle Functionality
-const themeCheckbox = document.getElementById('theme-checkbox');
+// DOM Elements
+const themeToggle = document.getElementById('theme-toggle');
 const body = document.body;
+const chatLog = document.getElementById('chat-log');
+const userInput = document.getElementById('user-input');
+const sendBtn = document.getElementById('send-btn');
+const typingIndicator = document.getElementById('typing-indicator');
+const clickSound = document.getElementById('click-sound');
+const sendSound = document.getElementById('send-sound');
 
-// Check for saved theme preference or use preferred color scheme
-const savedTheme = localStorage.getItem('theme') || 
-                  (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+// Hugging Face API Configuration
+const HF_API_TOKEN = 'YOUR_HUGGING_FACE_TOKEN'; // Replace with your token
+const MODEL_ID = 'HuggingFaceH4/zephyr-7b-beta'; // Free model
 
-if (savedTheme === 'dark') {
-    body.classList.add('dark-mode');
-    themeCheckbox.checked = true;
-}
-
-themeCheckbox.addEventListener('change', function() {
-    if (this.checked) {
+// Theme Management
+function setTheme(isDark) {
+    if (isDark) {
         body.classList.add('dark-mode');
         localStorage.setItem('theme', 'dark');
     } else {
         body.classList.remove('dark-mode');
         localStorage.setItem('theme', 'light');
     }
+}
+
+// Initialize theme
+const savedTheme = localStorage.getItem('theme') || 
+                  (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+setTheme(savedTheme === 'dark');
+themeToggle.checked = savedTheme === 'dark';
+
+// Theme toggle event
+themeToggle.addEventListener('change', () => {
+    clickSound.play();
+    setTheme(themeToggle.checked);
 });
 
-// Chat Functionality
-const chatLog = document.getElementById('chat-log');
-const userInput = document.getElementById('user-input');
-const sendBtn = document.getElementById('send-btn');
-const typingIndicator = document.getElementById('typing-indicator');
-
-// Initial bot message
+// Initial Bot Message
 setTimeout(() => {
-    addBotMessage("SYSTEM INITIALIZED... READY TO CHAT!");
-}, 500);
+    addMessage('bot', "SYSTEM INITIALIZED\nREADY FOR INPUT");
+}, 1000);
 
-// Send message when button is clicked or Enter is pressed
-sendBtn.addEventListener('click', sendMessage);
-userInput.addEventListener('keypress', (e) => e.key === 'Enter' && sendMessage());
-
-function sendMessage() {
-    const message = userInput.value.trim();
-    if (!message) return;
-    
-    addUserMessage(message);
-    userInput.value = '';
-    showTypingIndicator();
-    
-    // Simulate API response (replace with actual API call)
-    setTimeout(() => {
-        removeTypingIndicator();
-        const responses = [
-            "AFFIRMATIVE. I PROCESSED YOUR REQUEST.",
-            "ERROR 404: WITTY RESPONSE NOT FOUND.",
-            "COMMAND RECEIVED. PROCESSING...",
-            "I'M JUST A SIMPLE 8-BIT AI. PLEASE BE GENTLE!",
-            "01001000 01001001 00100001 (THAT'S 'HI!' IN BINARY)"
-        ];
-        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-        addBotMessage(randomResponse);
-    }, 1500 + Math.random() * 2000);
-}
-
-function addUserMessage(message) {
+// Message Handling
+function addMessage(sender, text) {
     const messageElement = document.createElement('div');
-    messageElement.classList.add('message', 'user-message');
-    messageElement.textContent = message;
-    chatLog.appendChild(messageElement);
-    scrollToBottom();
-}
-
-function addBotMessage(message) {
-    const messageElement = document.createElement('div');
-    messageElement.classList.add('message', 'bot-message');
+    messageElement.classList.add('message', `${sender}-message`);
     
-    // Add typewriter effect
+    // Clear initial screen if it's the first message
+    if (document.querySelector('.initial-screen')) {
+        chatLog.innerHTML = '';
+    }
+    
+    // Typewriter effect
     let i = 0;
-    messageElement.textContent = '';
     const typing = setInterval(() => {
-        if (i < message.length) {
-            messageElement.textContent += message.charAt(i);
+        if (i < text.length) {
+            messageElement.textContent = text.substring(0, i + 1);
             scrollToBottom();
             i++;
         } else {
@@ -88,37 +66,103 @@ function addBotMessage(message) {
     scrollToBottom();
 }
 
-function showTypingIndicator() {
-    typingIndicator.style.display = 'flex';
-    scrollToBottom();
-}
-
-function removeTypingIndicator() {
-    typingIndicator.style.display = 'none';
-}
-
 function scrollToBottom() {
     chatLog.scrollTop = chatLog.scrollHeight;
 }
 
-// Easter egg - change colors when clicking header
-document.querySelector('header').addEventListener('click', function() {
-    const root = document.documentElement;
+// Typing Indicator
+function showTyping() {
+    typingIndicator.style.display = 'flex';
+    scrollToBottom();
+}
+
+function hideTyping() {
+    typingIndicator.style.display = 'none';
+}
+
+// Hugging Face API Call
+async function queryChatAI(message) {
+    try {
+        const response = await fetch(
+            `https://api-inference.huggingface.co/models/${MODEL_ID}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${HF_API_TOKEN}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    inputs: `<|system|>
+You are a helpful 8-bit AI assistant. Respond in short, fun messages with occasional retro gaming references.
+</s>
+<|user|>
+${message}
+</s>
+<|assistant|>`,
+                    parameters: {
+                        max_new_tokens: 150,
+                        temperature: 0.7,
+                        repetition_penalty: 1.2
+                    }
+                })
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(`API error: ${response.status}`);
+        }
+
+        const result = await response.json();
+        return result[0]?.generated_text.split('<|assistant|>')[1]?.trim() || 
+               "ERROR: COULD NOT PROCESS REQUEST";
+    } catch (error) {
+        console.error('API Error:', error);
+        return "SYSTEM ERROR: TRY AGAIN LATER";
+    }
+}
+
+// Send Message
+async function sendMessage() {
+    const message = userInput.value.trim();
+    if (!message) return;
+    
+    sendSound.play();
+    addMessage('user', message);
+    userInput.value = '';
+    showTyping();
+    
+    try {
+        const response = await queryChatAI(message);
+        hideTyping();
+        addMessage('bot', response);
+    } catch (error) {
+        hideTyping();
+        addMessage('bot', "NETWORK ERROR: PLEASE RETRY");
+    }
+}
+
+// Event Listeners
+sendBtn.addEventListener('click', sendMessage);
+userInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendMessage();
+});
+
+// Easter Egg - Click Header for Fun
+document.querySelector('header').addEventListener('click', () => {
     const colors = [
-        { primary: '#ff2d75', secondary: '#00f0ff', accent: '#ff9e3d' },
-        { primary: '#9c27b0', secondary: '#00bcd4', accent: '#ffeb3b' },
-        { primary: '#e91e63', secondary: '#00e676', accent: '#ff9800' },
-        { primary: '#673ab7', secondary: '#ff5722', accent: '#8bc34a' }
+        { light: '#306850', dark: '#e94584' }, // Original
+        { light: '#5a3d7a', dark: '#00c1b3' }, // Purple/Teal
+        { light: '#8e44ad', dark: '#f39c12' }, // Purple/Orange
+        { light: '#27ae60', dark: '#e74c3c' }  // Green/Red
     ];
     
+    const root = document.documentElement;
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
-    root.style.setProperty('--light-primary', randomColor.primary);
-    root.style.setProperty('--light-secondary', randomColor.secondary);
-    root.style.setProperty('--light-accent', randomColor.accent);
+    
+    root.style.setProperty('--light-primary', randomColor.light);
+    root.style.setProperty('--dark-secondary', randomColor.dark);
     
     if (body.classList.contains('dark-mode')) {
-        root.style.setProperty('--dark-primary', randomColor.primary);
-        root.style.setProperty('--dark-secondary', randomColor.secondary);
-        root.style.setProperty('--dark-accent', randomColor.accent);
+        root.style.setProperty('--dark-primary', randomColor.light);
     }
 });
