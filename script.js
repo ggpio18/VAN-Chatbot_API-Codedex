@@ -66,3 +66,21 @@ async function sendMessage() {
         addBotMessage("I'm having connection issues. Please try again later!");
     }
 }
+
+
+function addUserMessage(message) {
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message', 'user-message');
+    messageElement.textContent = message;
+    chatLog.appendChild(messageElement);
+    scrollToBottom();
+}
+
+function addBotMessage(message) {
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message', 'bot-message');
+    messageElement.textContent = message;
+    chatLog.appendChild(messageElement);
+    scrollToBottom();
+}
+
