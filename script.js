@@ -166,3 +166,18 @@ document.querySelector('header').addEventListener('click', () => {
         root.style.setProperty('--dark-primary', randomColor.light);
     }
 });
+
+// Update your existing theme toggle function
+function setTheme(isDark) {
+    if (isDark) {
+        body.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        body.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+    }
+    
+    // Play transition sound
+    clickSound.currentTime = 0;
+    clickSound.play();
+}
