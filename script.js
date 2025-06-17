@@ -181,3 +181,31 @@ function setTheme(isDark) {
     clickSound.currentTime = 0;
     clickSound.play();
 }
+
+// Add floating pyramids to dark mode
+function createVaporwaveElements() {
+    const darkBg = document.querySelector('.dark-bg');
+    
+    // Create 5 floating pyramids
+    for (let i = 0; i < 5; i++) {
+        const pyramid = document.createElement('div');
+        pyramid.classList.add('vaporwave-pyramid');
+        
+        // Random positioning
+        pyramid.style.left = `${Math.random() * 80 + 10}%`;
+        pyramid.style.top = `${Math.random() * 60 + 20}%`;
+        
+        // Random size
+        const size = Math.random() * 60 + 40;
+        pyramid.style.width = `${size}px`;
+        pyramid.style.height = `${size * 0.75}px`;
+        
+        // Random animation duration
+        pyramid.style.animationDuration = `${Math.random() * 10 + 10}s`;
+        
+        darkBg.appendChild(pyramid);
+    }
+}
+
+// Call this when page loads
+window.addEventListener('DOMContentLoaded', createVaporwaveElements);
