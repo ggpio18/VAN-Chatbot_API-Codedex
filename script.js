@@ -202,7 +202,7 @@ function createVaporwaveElements() {
         
         // Random animation duration
         pyramid.style.animationDuration = `${Math.random() * 10 + 10}s`;
-        
+                                                                
         darkBg.appendChild(pyramid);
     }
 }
