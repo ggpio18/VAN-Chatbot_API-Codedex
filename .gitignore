@@ -1,38 +1,43 @@
-# ========================
-# 8-BIT AI CHATBOT IGNORES
-# ========================
+# Dependency directories
+node_modules/
 
-# 1. SECRETS (CRITICAL)
-server/.env               # Hugging Face API key
-server/.env.*             # All env variants (e.g., .env.prod)
-.env.local                # Common leak source
+# Environment variables
+server/.env
 
-# 2. NODE MODULES
-node_modules/             # Dependency dir
-.serverless/             # If using serverless
-jspm_packages/           # Less common but possible
+# IDE and editor files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
 
-# 3. BUILD/OUTPUT
-dist/                     # Build artifacts
-.cache/                  # Parcel/Vite cache
-*.min.js                 # Minified files
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# 4. SYSTEM FILES
-.DS_Store                # macOS
-Thumbs.db                # Windows
-*.swp                    # Vim swap files
+# Logs and databases
+*.log
+*.sql
+*.sqlite
 
-# 5. LOGS & DEBUG
-*.log                    # Error logs
-npm-debug.log*          
-yarn-debug.log*
-yarn-error.log*
+# Debug files
+*.pid
+*.seed
 
-# 6. IDE/EDITOR
-.vscode/                 # VSCode settings
-.idea/                   # JetBrains IDE
-*.code-workspace         # Workspace configs
+# Build files
+dist/
+build/
+out/
+*.exe
+*.out
 
-# 7. TESTING
-coverage/                # Test coverage reports
-.nyc_output/             # Istanbul coverage data
+# Misc
+.env.example
+package-lock.json
