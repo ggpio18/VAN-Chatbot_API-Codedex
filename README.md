@@ -1,3 +1,6 @@
+![chatbot_light](https://github.com/user-attachments/assets/5a7e92fd-2438-4c85-afa1-a8b06af10a0e)
+![chatbot-dark](https://github.com/user-attachments/assets/4d9e1535-c9b6-454f-af37-4da2fd87d75c)
+
 # 📌 VAN Chatbot API – Codedex
 
 > A retro-styled 8-bit chatbot built with Vanilla JavaScript and powered by a Node.js backend. Created as part of the Codedex learning challenge.
