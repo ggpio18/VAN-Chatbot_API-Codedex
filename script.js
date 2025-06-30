@@ -126,7 +126,7 @@ async function sendMessage() {
     const message = userInput.value.trim();
     if (!message) return;
     
-    sendSound.play();
+    sendSound.play();``
     addMessage('user', message);
     userInput.value = '';
     showTyping();
