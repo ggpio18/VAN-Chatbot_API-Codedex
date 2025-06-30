@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8-Bit AI Assistant</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="light-mode">
+
+<div class="dark-bg">
+    <img src="https://i.gifer.com/7VE.gif" alt="vaporwave background" class="bg-gif">
+</div>
+
+    <!-- Animated Background Elements -->
+    <div class="background-animation light-bg">
+        <div class="pixel-clouds"></div>
+        <div class="pixel-trees"></div>
+    </div>
+    <div class="background-animation dark-bg">
+        <div class="pixel-stars"></div>
+        <div class="pixel-matrix"></div>
+    </div>
+
+    <div class="container">
+        <div class="theme-switcher">
+            <span class="theme-label">LIGHT</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider"></span>
+            </label>
+            <span class="theme-label">DARK</span>
+        </div>
+
+        <div class="chatbot-outer">
+            <div class="crt-effect">
+                <div class="chatbot-container">
+                    <header class="pixel-border">
+                        <div class="header-grid">
+                            <div class="pixel-logo"></div>
+                            <h1>8-BIT AI</h1>
+                            <div class="hardware-indicators">
+                                <div class="indicator power"></div>
+                                <div class="indicator activity"></div>
+                            </div>
+                        </div>
+                    </header>
+                    
+                    <div class="chat-display pixel-border" id="chat-log">
+                        <div class="initial-screen">
+                            <div class="pixel-robot"></div>
+                            <p>SYSTEM READY</p>
+                        </div>
+                    </div>
+                    
+                    <div class="input-container pixel-border">
+                        <input type="text" id="user-input" placeholder="TYPE YOUR MESSAGE..." class="pixel-input">
+                        <button id="send-btn" class="pixel-button">
+                            <span class="button-label">SEND</span>
+                            <span class="button-effect"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div class="connection-status">
+                <span class="status-dot"></span>
+                <span>API CONNECTED</span>
+            </div>
+            <div class="typing-indicator" id="typing-indicator">
+                <span>AI TYPING</span>
+                <div class="typing-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="click-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3"></audio>
+    <audio id="send-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
